@@ -80,11 +80,15 @@
         return;
       }
       const days = dayCount(from, to);
+      let total = 0;
       if (days < 1) {
         totalEl.textContent = "Total: PHP 0.00";
         return;
+      }else if (days >= 7) {
+        total = equipment.daily_rate * days * 0.9; // 10% discount for rentals of 7 days or more
+      } else {
+        total = equipment.daily_rate * days;
       }
-      const total = equipment.daily_rate * days;
       totalEl.textContent = `Total: PHP ${total.toFixed(2)} (${days} day${days > 1 ? "s" : ""})`;
     }
 
@@ -118,6 +122,7 @@
 
     document.getElementById("equipment").addEventListener("change", updateTotal);
     document.getElementById("from").addEventListener("change", updateTotal);
+    document.getElementById("to").addEventListener("change", updateTotal);
     document.getElementById("book").addEventListener("click", createBooking);
 
     loadEquipment();
